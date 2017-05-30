@@ -1,4 +1,5 @@
 # boot-chat
+Using angular to handle async mesages from xmpp. javascript strophe handles the xmpp
 
 # Install
 * npm install --global gulp-cli
@@ -6,3 +7,7 @@
 * npm install --save-dev gulp
 * npm install --save-dev gulp-webserver
 * gulp
+
+
+# Demo
+![Demo Image](/demo.jpg?raw=true "In Use")
