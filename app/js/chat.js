@@ -5,26 +5,34 @@ var connection = null;
 var app = angular.module('vectorApp', []);
 app.controller('ChatController', function($scope, $q) {
 
-   var today = new Date();
-   $scope.date = today.toDateString();
+  var today = new Date();
+  $scope.date = "";
+  $scope.conversations = [];
+
+   $scope.addchat = function (from, text) {
+      console.log('Add Chat');
+      var item = { date : new Date(), from : from, msg : text};
+      console.log(item);
+      $scope.conversations.push(item);
+      console.log('Added Chat' + $scope.conversations);
+      $scope.$apply();
+      console.log($scope.conversations);
+   }
  });
 
 function log(msg, data) {
     console.log(msg + ":" + data);
 }
 
-function rawInput(data)
-{
+function rawInput(data){
     log('RECV', data);
 }
 
-function rawOutput(data)
-{
+function rawOutput(data){
     log('SENT', data);
 }
 
-function onConnect(status)
-{
+function onConnect(status){
     if (status == Strophe.Status.CONNECTING) {
 	    console.log('Strophe is connecting.');
     } else if (status == Strophe.Status.CONNFAIL) {
@@ -41,6 +49,7 @@ function onConnect(status)
 }
 
 function onMessage(msg) {
+
     var to = msg.getAttribute('to');
     var from = msg.getAttribute('from');
     var type = msg.getAttribute('type');
@@ -52,11 +61,9 @@ function onMessage(msg) {
     	console.log('I got a message from ' + from + ': ' +
     	    Strophe.getText(body));
 
-    	var reply = $msg({to: from, from: to, type: 'chat'})
-                .cnode(Strophe.copyElement(body));
-    	connection.send(reply.tree());
-
-    	console.log('I sent ' + from + ': ' + Strophe.getText(body));
+          console.log('On Mesage');
+          angular.element($('#chatController')).scope().addchat(from, Strophe.getText(body));
+          console.log('Message added');
     }
     // we must return true to keep the handler alive.
     // returning false would remove it after it finishes.

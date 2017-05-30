@@ -36,8 +36,10 @@
               </div>
             </nav>
 
-         <div class="container" ng-app="vectorApp" ng-controller="ChatController">
-           <h1>{{date}}</h1>
+         <div id="chatController" class="container" ng-app="vectorApp" ng-controller="ChatController">
+              <div ng-repeat="conversation in conversations">
+                  <h4>[{{conversation.date}}:{{conversation.from}}]{{conversation.msg}}</h4>
+              </div>
          </div>
 
   </body>
