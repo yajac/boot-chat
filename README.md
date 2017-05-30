@@ -10,4 +10,4 @@ Using angular to handle async mesages from xmpp. javascript strophe handles the 
 
 
 # Demo
-![Demo Image](/demo.jpg?raw=true "In Use")
+![Demo Image](/demo.png?raw=true "In Use")
