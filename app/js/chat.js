@@ -5,20 +5,30 @@ var connection = null;
 var app = angular.module('vectorApp', []);
 app.controller('ChatController', function($scope, $q) {
 
-  var today = new Date();
-  $scope.date = "";
-  $scope.conversations = [];
+  $scope.date = new Date();
+  $scope.conversations = {};
 
    $scope.addchat = function (from, text) {
       console.log('Add Chat');
-      var item = { date : new Date(), from : from, msg : text};
-      console.log(item);
-      $scope.conversations.push(item);
+      $scope.conversations[from] = addToConversationArray($scope.conversations[from], from, text);;
       console.log('Added Chat' + $scope.conversations);
       $scope.$apply();
       console.log($scope.conversations);
+      console.log("size: " + Object.keys($scope.conversations));
    }
  });
+
+ function addToConversationArray(conversation, jid, text){
+   if(conversation == null){
+     conversation = [];
+   }
+   console.log('C ' + conversation);
+   var chat = { date : new Date(), jid : jid, msg : text};
+   console.log('Item ' + chat);
+   conversation.push(chat);
+   console.log('CAfter' + conversation);
+   return conversation;
+ }
 
 function log(msg, data) {
     console.log(msg + ":" + data);
@@ -57,13 +67,11 @@ function onMessage(msg) {
 
     if (type == "chat" && elems.length > 0) {
     	var body = elems[0];
-
     	console.log('I got a message from ' + from + ': ' +
-    	    Strophe.getText(body));
-
-          console.log('On Mesage');
-          angular.element($('#chatController')).scope().addchat(from, Strophe.getText(body));
-          console.log('Message added');
+	    Strophe.getText(body));
+      console.log('On Mesage');
+      angular.element($('#chatController')).scope().addchat(from, Strophe.getText(body));
+      console.log('Message added');
     }
     // we must return true to keep the handler alive.
     // returning false would remove it after it finishes.

@@ -37,10 +37,18 @@
             </nav>
 
          <div id="chatController" class="container" ng-app="vectorApp" ng-controller="ChatController">
-              <div ng-repeat="conversation in conversations">
-                  <h4>[{{conversation.date}}:{{conversation.from}}]{{conversation.msg}}</h4>
+
+           <div class="panel panel-default" ng-repeat="(value, key) in conversations">
+              <div class="panel-heading">
+                <h3 class="panel-title">{{value}}</h3>
               </div>
-         </div>
+              <div class="panel-body">
+                <div ng-repeat="message in key">
+                  <h5><span style="font-weight:bold">{{message.jid}} : </span>{{message.msg}}</h5>
+                </div>
+              </div>
+           </div>
+        </div>
 
   </body>
 
