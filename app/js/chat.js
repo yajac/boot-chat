@@ -1,5 +1,6 @@
 var BOSH_SERVICE = 'http://localhost:7070/http-bind/';
 var connection = null;
+var jid = null;
 
 
 var app = angular.module('vectorApp', []);
@@ -8,13 +9,14 @@ app.controller('ChatController', function($scope, $q) {
   $scope.date = new Date();
   $scope.conversations = {};
 
-   $scope.addchat = function (from, text) {
-      console.log('Add Chat');
-      $scope.conversations[from] = addToConversationArray($scope.conversations[from], from, text);;
-      console.log('Added Chat' + $scope.conversations);
+   $scope.addchat = function (jid, from, text) {
+      $scope.conversations[jid] = addToConversationArray($scope.conversations[jid], from, text);
       $scope.$apply();
-      console.log($scope.conversations);
-      console.log("size: " + Object.keys($scope.conversations));
+   }
+
+   $scope.chat = function (to, replyMessage) {
+     chat(to, replyMessage);
+     $scope.conversations[to] = addToConversationArray($scope.conversations[to], jid, replyMessage);
    }
  });
 
@@ -22,12 +24,14 @@ app.controller('ChatController', function($scope, $q) {
    if(conversation == null){
      conversation = [];
    }
-   console.log('C ' + conversation);
    var chat = { date : new Date(), jid : jid, msg : text};
-   console.log('Item ' + chat);
    conversation.push(chat);
-   console.log('CAfter' + conversation);
    return conversation;
+ }
+
+ function chat(recipient, text){
+   sendMessage(recipient, jid, text);
+   $("#response-text").val("");
  }
 
 function log(msg, data) {
@@ -58,6 +62,11 @@ function onConnect(status){
     }
 }
 
+function sendMessage(to, from, text){
+  var message = $msg({to: to, from: from, type: 'chat'}).c("body").t(text)
+	connection.send(message.tree());
+}
+
 function onMessage(msg) {
 
     var to = msg.getAttribute('to');
@@ -65,12 +74,13 @@ function onMessage(msg) {
     var type = msg.getAttribute('type');
     var elems = msg.getElementsByTagName('body');
 
+    jid = to;
     if (type == "chat" && elems.length > 0) {
     	var body = elems[0];
     	console.log('I got a message from ' + from + ': ' +
 	    Strophe.getText(body));
       console.log('On Mesage');
-      angular.element($('#chatController')).scope().addchat(from, Strophe.getText(body));
+      angular.element($('#chatController')).scope().addchat(from, from, Strophe.getText(body));
       console.log('Message added');
     }
     // we must return true to keep the handler alive.
