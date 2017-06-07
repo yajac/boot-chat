@@ -10,21 +10,21 @@ app.controller('ChatController', function($scope, $q) {
   $scope.conversations = {};
 
    $scope.addchat = function (jid, from, text) {
-      $scope.conversations[jid] = addToConversationArray($scope.conversations[jid], from, text);
+      $scope.conversations[jid] = addToConversationArray($scope.conversations[jid], from, text, true);
       $scope.$apply();
    }
 
    $scope.chat = function (to, replyMessage) {
      chat(to, replyMessage);
-     $scope.conversations[to] = addToConversationArray($scope.conversations[to], jid, replyMessage);
+     $scope.conversations[to] = addToConversationArray($scope.conversations[to], jid, replyMessage, false);
    }
  });
 
- function addToConversationArray(conversation, jid, text){
+ function addToConversationArray(conversation, jid, text, self){
    if(conversation == null){
      conversation = [];
    }
-   var chat = { date : new Date(), jid : jid, msg : text};
+   var chat = { date : new Date(), jid : jid, msg : text, self: self};
    conversation.push(chat);
    return conversation;
  }
