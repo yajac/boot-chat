@@ -82,6 +82,7 @@ function onMessage(msg) {
       console.log('On Mesage');
       angular.element($('#chatController')).scope().addchat(from, from, Strophe.getText(body));
       console.log('Message added');
+      $('#chatLabel').addClass('chatNotification');
     }
     // we must return true to keep the handler alive.
     // returning false would remove it after it finishes.
@@ -98,3 +99,7 @@ $(document).ready(function () {
 			       onConnect);
 
 });
+
+$("#chatTab").click(function() {
+  $('#chatLabel').removeClass('chatNotification');
+})

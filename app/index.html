@@ -17,27 +17,23 @@
     <link rel="stylesheet" href="css/chat.css"/>
   </head>
   <body>
+      <div>
        <nav class="navbar navbar-default">
-            <div class="container">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">CapWIN</a>
-              </div>
-              <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                  <li><a href="#">Home</a></li>
-                  <li class="active"><a href="#">Chat</a></li>
-                  <li><a href="#">Query</a></li>
-                </ul>
-              </div><!--/.nav-collapse -->
-            </div>
-         </nav>
+          <div class="container">
+              <!-- Nav tabs -->
+              <a class="navbar-brand" href="#">CapWIN</a>
+              <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active" id="chatLabel"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" id="chatTab">Chat Page</a></li>
+                <li role="presentation"><a href="#page2" aria-controls="page2" role="tab" data-toggle="tab">Page 2</a></li>
+                <li role="presentation"><a href="#page3" aria-controls="page3" role="tab" data-toggle="tab">Page 3</a></li>
+              </ul>
 
+          </div>
+
+       </nav>
+     </div>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
          <div id="chatController" class="container" ng-app="vectorApp" ng-controller="ChatController">
            <div class="panel panel-primary" ng-repeat="(value, key) in conversations">
               <div class="panel-heading">
@@ -58,6 +54,10 @@
               </div>
            </div>
         </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="page2">Page 2</div>
+        <div role="tabpanel" class="tab-pane" id="page3">Page 3</div>
+      </div>
 
   </body>
 
